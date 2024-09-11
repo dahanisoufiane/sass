@@ -6,6 +6,7 @@ typedef struct {
     char email[50];
 } Contact;
 
+
 Contact contacts[MAX_CONTACTS];
 int contactCount = 0;
 void addContact() {
