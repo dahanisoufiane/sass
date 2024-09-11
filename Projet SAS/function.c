@@ -151,22 +151,19 @@ void afficherStatistiques() {
     char departements[MAX_ETUDIANTS][MAX_DEPARTEMENT];
     int nbDepartements = 0, nbEtudiantsDep[MAX_ETUDIANTS] = {0};
 
-    for (int i = 0; i < nbEtudiants; i++) {
-        int trouve = -1;
-        for (int j = 0; j < nbDepartements; j++) {
-            if (strcasecmp(etudiants[i].departement, departements[j]) == 0) {
-                trouve = j;
-                break;
-            }
-        }
-        if (trouve == -1) {
-            strcpy(departements[nbDepartements], etudiants[i].departement);
-            nbEtudiantsDep[nbDepartements++] = 1;
-        } else {
-            nbEtudiantsDep[trouve]++;
+   for (int i = 0; i < nbEtudiants; i++) {
+    int j;
+    for (j = 0; j < nbDepartements; j++) {
+        if (strcasecmp(etudiants[i].departement, departements[j]) == 0) {
+            nbEtudiantsDep[j]++;  // Increment the student count for the department
+            break;
         }
     }
-
+    if (j == nbDepartements) {  // If department not found, add it
+        strcpy(departements[nbDepartements], etudiants[i].departement);
+        nbEtudiantsDep[nbDepartements++] = 1;  // Set initial count to 1 for the new department
+    }
+}
     for (int i = 0; i < nbDepartements; i++) {
         printf("Nombre d'étudiants dans le département %s : %d\n", departements[i], nbEtudiantsDep[i]);
     }
