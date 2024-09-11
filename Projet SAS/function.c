@@ -264,13 +264,18 @@ void trierEtudiants() {
                 case 4:
                     doSwap = etudiants[j].noteGenerale < etudiants[j+1].noteGenerale;
                     break;
-                case 5:
-                    doSwap = (etudiants[j].noteGenerale >= 10 && etudiants[j+1].noteGenerale < 10) ||
-                             (etudiants[j].noteGenerale >= 10 && etudiants[j+1].noteGenerale >= 10 && 
-                              etudiants[j].noteGenerale < etudiants[j+1].noteGenerale) ||
-                             (etudiants[j].noteGenerale < 10 && etudiants[j+1].noteGenerale < 10 && 
-                              etudiants[j].noteGenerale < etudiants[j+1].noteGenerale);
+               case 5:
+                    if (etudiants[j].noteGenerale >= 10 && etudiants[j+1].noteGenerale < 10) {
+                        doSwap = 1;
+                    } else if (etudiants[j].noteGenerale >= 10 && etudiants[j+1].noteGenerale >= 10) {
+                        doSwap = etudiants[j].noteGenerale < etudiants[j+1].noteGenerale;
+                    } else if (etudiants[j].noteGenerale < 10 && etudiants[j+1].noteGenerale < 10) {
+                        doSwap = etudiants[j].noteGenerale < etudiants[j+1].noteGenerale;
+                    } else {
+                        doSwap = 0;
+                    }
                     break;
+
             }
             if (doSwap) {
                 Etudiant temp = etudiants[j];
