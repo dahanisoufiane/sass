@@ -147,10 +147,9 @@ void calculerMoyenne() {
 void afficherStatistiques() {
     printf("Nombre total d'étudiants inscrits : %d\n", nbEtudiants);
 
-    // Nombre d'étudiants par département
+    // Départements et nombre d'étudiants par département
     char departements[MAX_ETUDIANTS][MAX_DEPARTEMENT];
-    int nbDepartements = 0;
-    int nbEtudiantsDep[MAX_ETUDIANTS] = {0};
+    int nbDepartements = 0, nbEtudiantsDep[MAX_ETUDIANTS] = {0};
 
     for (int i = 0; i < nbEtudiants; i++) {
         int trouve = -1;
@@ -162,8 +161,7 @@ void afficherStatistiques() {
         }
         if (trouve == -1) {
             strcpy(departements[nbDepartements], etudiants[i].departement);
-            nbEtudiantsDep[nbDepartements] = 1;
-            nbDepartements++;
+            nbEtudiantsDep[nbDepartements++] = 1;
         } else {
             nbEtudiantsDep[trouve]++;
         }
@@ -173,7 +171,7 @@ void afficherStatistiques() {
         printf("Nombre d'étudiants dans le département %s : %d\n", departements[i], nbEtudiantsDep[i]);
     }
 
-    // Étudiants avec moyenne supérieure à un seuil
+    // Étudiants ayant une moyenne supérieure à un seuil
     float seuil;
     printf("Entrez le seuil de moyenne : ");
     scanf("%f", &seuil);
@@ -184,22 +182,20 @@ void afficherStatistiques() {
         }
     }
 
-    // 3 meilleurs étudiants
-    Etudiant top3[3];
-    for (int i = 0; i < 3 && i < nbEtudiants; i++) {
-        top3[i] = etudiants[i];
-        for (int j = i + 1; j < nbEtudiants; j++) {
-            if (etudiants[j].noteGenerale > top3[i].noteGenerale) {
-                top3[i] = etudiants[j];
-            }
-        }
+    // Les 3 meilleurs étudiants
+    Etudiant top3[3] = {etudiants[0], etudiants[0], etudiants[0]};
+    for (int i = 1; i < nbEtudiants; i++) {
+        if (etudiants[i].noteGenerale > top3[0].noteGenerale) top3[0] = etudiants[i];
+        else if (etudiants[i].noteGenerale > top3[1].noteGenerale) top3[1] = etudiants[i];
+        else if (etudiants[i].noteGenerale > top3[2].noteGenerale) top3[2] = etudiants[i];
     }
+
     printf("Les 3 meilleurs étudiants :\n");
-    for (int i = 0; i < 3 && i < nbEtudiants; i++) {
+    for (int i = 0; i < 3; i++) {
         printf("%d. %s %s (%.2f)\n", i+1, top3[i].nom, top3[i].prenom, top3[i].noteGenerale);
     }
 
-    // Nombre d'étudiants ayant réussi par département
+    // Étudiants ayant réussi par département
     printf("Nombre d'étudiants ayant réussi par département :\n");
     for (int i = 0; i < nbDepartements; i++) {
         int nbReussi = 0;
@@ -211,6 +207,7 @@ void afficherStatistiques() {
         printf("%s : %d\n", departements[i], nbReussi);
     }
 }
+
 
 void rechercherEtudiant() {
     printf("1. Rechercher par nom\n");
